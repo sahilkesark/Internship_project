@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Upload | Career Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Resume Upload</h1>
+                <p class="subtitle">Upload your resume in PDF format and we'll extract your information from it</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="card glass-card">
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <h3>Upload Your Resume</h3>
+                        <p>Drag and drop your PDF resume here, or click the button below to browse and select a file</p>
+                        <input type="file" id="resumeFile" accept=".pdf" hidden>
+                        <button type="button" class="primary-btn" onclick="document.getElementById('resumeFile').click()">
+                            <span>Choose PDF File</span>
+                        </button>
+                        <small class="form-hint">Maximum file size: 10MB</small>
+                    </div>
+                    
+                    <div id="fileInfo" class="file-info hidden">
+                        <div class="file-details">
+                            <div class="file-text">
+                                <strong id="fileName"></strong>
+                                <span id="fileSize"></span>
+                            </div>
+                            <button type="button" class="remove-file" onclick="removeFile()">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="loading" class="loading-container hidden">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Processing your resume...</p>
+                </div>
+
+                <button id="analyzeBtn" type="button" class="action-btn hidden" onclick="analyzeResume()">
+                    <span>Analyze Resume</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <div class="back-link">
+                    <a href="/" class="link-btn">← Back to Home</a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='ai_parser.js') }}"></script>
+</body>
+</html>
+

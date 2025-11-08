@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparation Plan | Career Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Preparation Plan Specific Styles */
+        .plan-section {
+            margin-top: var(--spacing-xl);
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .plan-section:nth-child(1) { animation-delay: 0.1s; }
+        .plan-section:nth-child(2) { animation-delay: 0.2s; }
+        .plan-section:nth-child(3) { animation-delay: 0.3s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 3px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            color: var(--text-white);
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-md), 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+            font-weight: 500;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+        }
+
+        .chip:hover {
+            background: rgba(99, 102, 241, 0.25);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-meta {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+            justify-content: center;
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        /* Timetable Grid */
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .week-card {
+            background: var(--gradient-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+        }
+
+        .week-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .week-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-primary);
+            color: var(--text-white);
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-md), 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .week-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .week-focus {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: var(--spacing-xs);
+        }
+
+        .task-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--primary);
+            transition: all var(--transition-base);
+        }
+
+        .task-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+        }
+
+        .task-icon {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .task-text {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* Syllabus List */
+        .syllabus-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .syllabus-item {
+            background: var(--gradient-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid var(--secondary);
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        .syllabus-item:nth-child(1) { animation-delay: 0.1s; }
+        .syllabus-item:nth-child(2) { animation-delay: 0.2s; }
+        .syllabus-item:nth-child(3) { animation-delay: 0.3s; }
+        .syllabus-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .syllabus-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-lg);
+            border-left-color: var(--secondary-dark);
+        }
+
+        .syllabus-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: var(--radius-md);
+            color: var(--secondary);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .syllabus-text {
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.7;
+            flex: 1;
+            font-weight: 500;
+        }
+
+        /* Resources List */
+        .resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .resource-item {
+            background: var(--gradient-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        .resource-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+        }
+
+        .resource-item:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: var(--radius-md);
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .resource-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            flex: 1;
+        }
+
+        .resource-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            word-break: break-all;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-xs);
+            transition: all var(--transition-base);
+        }
+
+        .resource-link:hover {
+            color: var(--primary-dark);
+            transform: translateX(3px);
+        }
+
+        .resource-link::after {
+            content: '↗';
+            font-size: 0.85rem;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 2px solid rgba(99, 102, 241, 0.2);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .actions .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            background: rgba(99, 102, 241, 0.1);
+            transition: all var(--transition-base);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .actions .link-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .actions .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: var(--gradient-primary);
+            color: var(--text-white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-md);
+            border: none;
+        }
+
+        .actions .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        /* Duration Badge */
+        .duration-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--gradient-success);
+            color: var(--text-white);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-left: var(--spacing-md);
+            box-shadow: var(--shadow-md), 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timetable-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resources-list {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions .link-btn,
+            .actions .primary-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1>Preparation Plan</h1>
+                <p class="subtitle">{{ career.name }}</p>
+                <div class="header-meta">
+                    {% if career.service_branch %}<span class="chip">{{ career.service_branch }}</span>{% endif %}
+                    {% if career.entry_type %}<span class="chip">{{ career.entry_type }}</span>{% endif %}
+                    <span class="duration-badge">📅 {{ timetable|length }} Weeks</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="plan-section">
+                <div class="section-header">
+                    <div class="section-icon">📚</div>
+                    <div>
+                        <h2 class="section-title">Syllabus Coverage</h2>
+                        <p class="section-subtitle">Complete topics and subjects to master</p>
+                    </div>
+                </div>
+                <div class="syllabus-list">
+                    {% for s in syllabus %}
+                    <div class="syllabus-item" style="animation-delay: {{ (loop.index0 * 0.1) }}s">
+                        <div class="syllabus-icon">📖</div>
+                        <div class="syllabus-text">{{ s }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="plan-section">
+                <div class="section-header">
+                    <div class="section-icon">📅</div>
+                    <div>
+                        <h2 class="section-title">Weekly Timetable</h2>
+                        <p class="section-subtitle">Structured week-by-week preparation schedule</p>
+                    </div>
+                </div>
+                <div class="timetable-grid">
+                    {% for w in timetable %}
+                    <div class="week-card" style="animation-delay: {{ (loop.index0 * 0.1) }}s">
+                        <div class="week-header">
+                            <div class="week-number">{{ w.week }}</div>
+                            <div>
+                                <div class="week-title">Week {{ w.week }}</div>
+                                <div class="week-focus">{{ w.focus }}</div>
+                            </div>
+                        </div>
+                        <ul class="task-list">
+                            {% for t in w.tasks %}
+                            <li class="task-item">
+                                <span class="task-icon">✓</span>
+                                <span class="task-text">{{ t }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="plan-section">
+                <div class="section-header">
+                    <div class="section-icon">🔗</div>
+                    <div>
+                        <h2 class="section-title">Recommended Resources</h2>
+                        <p class="section-subtitle">Essential study materials and references</p>
+                    </div>
+                </div>
+                <div class="resources-list">
+                    {% for r in resources %}
+                    <div class="resource-item" style="animation-delay: {{ (loop.index0 * 0.1) }}s">
+                        <div class="resource-header">
+                            <div class="resource-icon">📘</div>
+                            <div class="resource-name">{{ r.name }}</div>
+                        </div>
+                        {% if r.url %}
+                        <a href="{{ r.url }}" target="_blank" rel="noopener noreferrer" class="resource-link">{{ r.url }}</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <div class="actions">
+                <a class="link-btn" href="/results">
+                    <span>←</span>
+                    <span>Back to Recommendations</span>
+                </a>
+                <a class="primary-btn" href="/">
+                    <span>Start Over</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
