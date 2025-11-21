@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@example.com",
+    "user_id": "d384ec26-dece-4d31-9c3f-59fb4095dab5",
+    "assessment_id": "40c528de-c13e-4fcf-bbb9-c03d4a071838",
+    "olq_score": 78.0,
+    "description": "High OLQ Officer Candidate - Engineering graduate with NCC, excellent for officer entries"
+  },
+  {
+    "name": "Priya Sharma",
+    "email": "priya.sharma@example.com",
+    "user_id": "2e9e5618-4ff4-4085-a202-ed49feffed09",
+    "assessment_id": "4d7d757e-d4e5-4729-bc0d-3e811d460b46",
+    "olq_score": 52.0,
+    "description": "Medium OLQ Mixed Candidate - Good academic record, suitable for both officer and technical entries"
+  },
+  {
+    "name": "Amit Singh",
+    "email": "amit.singh@example.com",
+    "user_id": "00103896-4e55-45e3-8417-a316e3478397",
+    "assessment_id": "0051202b-b483-42fc-a70f-35d16dab09bb",
+    "olq_score": 35.0,
+    "description": "Low OLQ Enlisted Candidate - Best suited for Agniveer, Army GD, and enlisted roles"
+  }
+]

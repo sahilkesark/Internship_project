@@ -1,0 +1,27 @@
+{
+  "role_classifier_accuracy": 0.855,
+  "success_predictor_accuracy": 0.99,
+  "feature_importance": {
+    "olq_score": 0.23902107740461273,
+    "education_level": 0.17915584968467224,
+    "percentage": 0.05494259495779606,
+    "age": 0.33230371659362967,
+    "has_ncc": 0.009537621343812112,
+    "height": 0.060964261773217794,
+    "weight": 0.05683905167272098,
+    "bmi": 0.04978933049121447,
+    "num_qualifications": 0.017446496078323978
+  },
+  "role_classes": [
+    "AFCAT",
+    "AGNIVEER",
+    "ARMY_GD",
+    "ARMY_TECHNICAL",
+    "CDS",
+    "NDA",
+    "UPSC_CSE"
+  ],
+  "training_samples": 1600,
+  "test_samples": 400,
+  "trained_on": "2025-11-21T15:29:38.709102"
+}
